@@ -1,0 +1,6 @@
+{
+  "name": "AERA — Communication Must Continue",
+  "description": "An independent, mobile-first emergency readiness and coordination platform for households, community organizations, and institutions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
