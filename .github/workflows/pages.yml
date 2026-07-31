@@ -27,6 +27,7 @@ jobs:
         run: |
           mkdir -p dist
           cp index.html dist/index.html
+          cp -R story faq process dist/
 
       - name: Verify production entrypoint
         run: |
