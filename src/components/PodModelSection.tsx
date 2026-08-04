@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, Boxes, Building2, Network, Presentation } from 'lucide-react';
+import { ArrowRight, Boxes, Building2, MonitorPlay, Network } from 'lucide-react';
 import { podModelImage } from '../assets/podModelImage';
 
 interface PodModelSectionProps {
@@ -53,7 +53,7 @@ export const PodModelSection: React.FC<PodModelSectionProps> = ({ onOpenPresenta
                 onClick={onOpenPresentation}
                 className="group inline-flex min-h-[48px] items-center justify-center gap-3 rounded-xl bg-[#305854] px-6 py-3 text-sm font-black uppercase tracking-[0.12em] text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-[#234542]"
               >
-                <Presentation size={19} />
+                <MonitorPlay size={19} />
                 View Presentation
                 <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
               </button>
@@ -95,7 +95,7 @@ export const PodModelSection: React.FC<PodModelSectionProps> = ({ onOpenPresenta
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.08 }}
-                  className="rounded-[24px] border border-[#305854]/12 bg-white p-6 shadow-sm"
+                  className="rounded-[24px] border border-[#305854]/15 bg-white p-6 shadow-sm"
                 >
                   <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#305854] text-white">
                     <Icon size={22} />
