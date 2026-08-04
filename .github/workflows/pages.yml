@@ -23,27 +23,34 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Prepare static site
-        run: |
-          mkdir -p dist
-          cp index.html dist/index.html
-          cp -R story faq process dist/
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: npm
 
-      - name: Verify production entrypoint
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production application
+        run: npm run build
+
+      - name: Verify compiled production entrypoint
         run: |
+          test -f dist/index.html
           if grep -q '/src/main.tsx' dist/index.html; then
             echo "Production HTML still points to the TypeScript source entrypoint." >&2
             exit 1
           fi
-          grep -q 'AERA — Founders, Readiness, and Coordination' dist/index.html
+          grep -q '/assets/index-' dist/index.html
 
-      - name: Add CNAME
+      - name: Add custom domain
         run: echo "aerafounders.com" > dist/CNAME
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      - name: Upload production artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
