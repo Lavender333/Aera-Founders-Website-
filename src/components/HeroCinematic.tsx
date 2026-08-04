@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { AeraLogo } from './AeraLogo';
-import { ShieldCheck, ArrowRight, Signal, Wifi, WifiOff, Users, AlertTriangle, Layers, Radio, Sparkles, CheckCircle, Activity, Zap } from 'lucide-react';
+import { ArrowRight, WifiOff, Radio, Activity } from 'lucide-react';
 import { soundEngine } from '../utils/audio';
 
 interface HeroCinematicProps {
@@ -71,8 +71,7 @@ const CRISIS_SCENARIOS: Record<CrisisMode, CrisisScenario> = {
 
 export const HeroCinematic: React.FC<HeroCinematicProps> = ({ onExploreClick }) => {
   const [activeStage, setActiveStage] = useState<string>('prepare');
-  const [crisisMode, setCrisisMode] = useState<CrisisMode>('advisory');
-
+  const [crisisMode] = useState<CrisisMode>('advisory');
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -91,42 +90,36 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({ onExploreClick }) 
     { id: 'recover', num: '04', name: 'Recover', desc: 'Support, logistics, follow-through' },
   ];
 
-  const handleScenarioSwitch = (mode: CrisisMode) => {
-    soundEngine.playBeep(mode === 'normal' ? 800 : mode === 'advisory' ? 650 : mode === 'blackout' ? 450 : 900, 0.08);
-    setCrisisMode(mode);
-  };
-
   const currentScenario = CRISIS_SCENARIOS[crisisMode];
 
   return (
     <section ref={heroRef} className="relative bg-white dark:bg-slate-950 pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden transition-colors" id="top">
-      {/* Decorative Signal Pulse Gradients with Parallax */}
       <motion.div style={{ y: bgGlowY }} className="absolute inset-0 pointer-events-none overflow-hidden z-0 opacity-40">
         <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-emerald-500/10 dark:bg-emerald-500/20 blur-3xl animate-pulse" />
         <div className="absolute top-1/2 -left-32 w-[400px] h-[400px] rounded-full bg-blue-500/10 dark:bg-blue-500/20 blur-3xl" />
       </motion.div>
 
       <div className="container mx-auto px-4 md:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-        {/* Left Headline Copy */}
         <motion.div style={{ y: leftColY }} className="lg:col-span-6 flex flex-col gap-5">
-          {/* Top Pill Status Badge */}
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#305854] text-white dark:bg-emerald-950 dark:text-emerald-300 border border-[#305854]/30 text-xs font-bold shadow-sm">
               <span className="w-2 h-2 rounded-full bg-[#8CBB5D] dark:bg-emerald-400 animate-ping shrink-0" />
               AERA PLATFORM
             </div>
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#F3F8F5] text-[#305854] border border-[#305854]/15 text-xs font-black tracking-wide">
+              FOUNDED BY KENNETH BREWER
+            </div>
           </div>
 
           <h1 className="text-balance text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-slate-900 dark:text-white leading-[1.02] tracking-tight">
-            Communication <br className="hidden sm:inline" />
-            <span className="text-[#305854] dark:text-emerald-400">must continue.</span>
+            Kenneth Brewer envisioned a better way to respond when
+            <span className="text-[#305854] dark:text-emerald-400"> communication breaks down.</span>
           </h1>
 
           <p className="lead text-slate-700 dark:text-slate-300 max-w-xl text-base sm:text-lg md:text-xl font-medium leading-relaxed">
-            AERA is an independent, mobile-first readiness and emergency coordination platform designed for households, community hubs, and critical institutions.
+            His founding insight became AERA—an independent, mobile-first readiness and emergency coordination platform designed to keep households, community hubs, and critical institutions connected through disruption.
           </p>
 
-          {/* 3 Core Impact Metrics (from AERA Official Collateral) */}
           <div className="grid grid-cols-3 gap-2.5 my-1">
             <div className="p-2.5 sm:p-3 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 text-center">
               <strong className="text-base sm:text-2xl font-black text-[#305854] dark:text-emerald-400 block leading-none">240M+</strong>
@@ -142,41 +135,37 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({ onExploreClick }) 
             </div>
           </div>
 
-          {/* Action CTAs */}
           <div className="flex flex-wrap items-center gap-3 pt-1">
-            <a
-              href="#platform"
-              onClick={onExploreClick}
-              className="btn btn-primary group text-sm sm:text-base py-3 px-6 shadow-lg shadow-emerald-600/20"
-            >
-              Explore AERA Platform
+            <a href="#genesis" className="btn btn-primary group text-sm sm:text-base py-3 px-6 shadow-lg shadow-emerald-600/20">
+              Discover Kenneth’s Vision
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </a>
             <a
-              href="#app-simulator"
+              href="#platform"
+              onClick={onExploreClick}
               className="btn btn-secondary text-sm sm:text-base py-3 px-5"
             >
-              Live App Simulator
+              Explore AERA Platform
             </a>
           </div>
 
-          {/* Founding Insight Highlight */}
           <div className="p-4 sm:p-5 rounded-2xl bg-[#305854] dark:bg-slate-900 text-white border-l-4 border-[#8CBB5D] dark:border-emerald-400 shadow-md">
             <span className="text-[#8CBB5D] dark:text-emerald-400 text-xs font-bold uppercase tracking-wider block mb-1">
-              Ken's Founding Insight
+              Kenneth Brewer’s Founding Insight
             </span>
             <p className="text-xs sm:text-sm font-semibold leading-relaxed text-white/95 dark:text-slate-200">
-              "An emergency creates a second crisis: fragmented information. Alerts say something happened. People still need to know what to do next."
+              “An emergency creates a second crisis: fragmented information. Alerts say something happened. People still need to know what to do next.”
             </p>
           </div>
         </motion.div>
 
-        {/* Right Product Preview Device Simulation */}
         <motion.div style={{ y: rightHudY, rotate: rightHudRotate }} className="lg:col-span-6">
           <div className="relative mx-auto max-w-md lg:max-w-none rounded-[32px] border-2 border-[#305854] dark:border-emerald-500/50 bg-white dark:bg-slate-900 p-4 sm:p-6 shadow-2xl transition-colors">
-            
-            {/* Top Device Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-[rgba(48,88,84,0.15)] dark:border-slate-800">
+            <div className="absolute -top-4 left-6 px-4 py-2 rounded-full bg-[#8CBB5D] text-[#203f3c] text-xs font-black shadow-lg">
+              KENNETH BREWER’S VISION IN ACTION
+            </div>
+
+            <div className="flex items-center justify-between pb-4 pt-3 border-b border-[rgba(48,88,84,0.15)] dark:border-slate-800">
               <div className="flex items-center gap-3">
                 <AeraLogo size={32} />
                 <div>
@@ -184,29 +173,23 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({ onExploreClick }) 
                   <span className="text-xs text-neutral-500 dark:text-slate-400">Shared Operating Picture</span>
                 </div>
               </div>
-
-              {/* Dynamic State Badge */}
               <span className={`px-3 py-1 rounded-full text-[11px] font-mono font-bold border ${currentScenario.badgeBg} ${currentScenario.badgeColor}`}>
                 {currentScenario.badge}
               </span>
             </div>
 
-            {/* Dynamic Scenario Headline Banner */}
             <div className="mt-4 p-3.5 rounded-xl bg-slate-900 text-white dark:bg-slate-950 border border-slate-800 space-y-1">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest flex items-center gap-1">
                   <Activity className="w-3 h-3 text-emerald-400" />
                   Live Operational Telemetry
                 </span>
-                <span className="text-[10px] font-mono text-slate-400">
-                  {currentScenario.telemetryMetric}
-                </span>
+                <span className="text-[10px] font-mono text-slate-400">{currentScenario.telemetryMetric}</span>
               </div>
               <p className="text-xs font-bold text-slate-100">{currentScenario.headline}</p>
               <p className="text-[11px] text-slate-400 leading-tight">{currentScenario.desc}</p>
             </div>
 
-            {/* Operating Picture Body */}
             <div className="py-5 flex flex-col gap-4">
               <div>
                 <span className="text-xs font-bold text-[#467857] dark:text-emerald-400 uppercase tracking-wider">
@@ -217,37 +200,31 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({ onExploreClick }) 
                 </h3>
               </div>
 
-              {/* 4 Interactive Stage Cards */}
               <div className="grid grid-cols-2 gap-2.5">
-                {stages.map((st) => (
+                {stages.map((stage) => (
                   <button
-                    key={st.id}
+                    key={stage.id}
                     type="button"
                     onClick={() => {
                       soundEngine.playClick();
-                      setActiveStage(st.id);
+                      setActiveStage(stage.id);
                     }}
                     className={`p-3 rounded-xl border text-left transition-all ${
-                      activeStage === st.id
+                      activeStage === stage.id
                         ? 'bg-[#F3F8F5] dark:bg-slate-800 border-[#305854] dark:border-emerald-500 ring-2 ring-[#8CBB5D]/50 dark:ring-emerald-500/50 shadow-sm'
                         : 'bg-white dark:bg-slate-900 border-neutral-200 dark:border-slate-800 hover:border-[#467857]'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-extrabold text-[#305854] dark:text-emerald-400">{st.num}</span>
-                      {activeStage === st.id && (
-                        <span className="w-2 h-2 rounded-full bg-[#8CBB5D] dark:bg-emerald-400"></span>
-                      )}
+                      <span className="text-xs font-extrabold text-[#305854] dark:text-emerald-400">{stage.num}</span>
+                      {activeStage === stage.id && <span className="w-2 h-2 rounded-full bg-[#8CBB5D] dark:bg-emerald-400" />}
                     </div>
-                    <strong className="text-sm block text-slate-900 dark:text-white font-bold">{st.name}</strong>
-                    <span className="text-[11px] text-neutral-600 dark:text-slate-400 block leading-tight mt-0.5">
-                      {st.desc}
-                    </span>
+                    <strong className="text-sm block text-slate-900 dark:text-white font-bold">{stage.name}</strong>
+                    <span className="text-[11px] text-neutral-600 dark:text-slate-400 block leading-tight mt-0.5">{stage.desc}</span>
                   </button>
                 ))}
               </div>
 
-              {/* Dynamic Signal Network Health Bar */}
               <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[#305854] dark:bg-slate-950 text-white border border-emerald-500/30">
                 {crisisMode === 'blackout' ? (
                   <WifiOff className="text-rose-400 shrink-0" size={20} />
@@ -256,12 +233,9 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({ onExploreClick }) 
                 )}
                 <div className="flex-1 text-xs">
                   <strong className="text-white block font-bold">Mesh Routing Status</strong>
-                  <span className="text-emerald-300 dark:text-emerald-400 font-mono text-[11px]">
-                    {currentScenario.meshStatus}
-                  </span>
+                  <span className="text-emerald-300 dark:text-emerald-400 font-mono text-[11px]">{currentScenario.meshStatus}</span>
                 </div>
               </div>
-
             </div>
           </div>
         </motion.div>
@@ -269,4 +243,3 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({ onExploreClick }) 
     </section>
   );
 };
-
