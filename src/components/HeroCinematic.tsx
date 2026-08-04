@@ -72,6 +72,7 @@ const CRISIS_SCENARIOS: Record<CrisisMode, CrisisScenario> = {
 export const HeroCinematic: React.FC<HeroCinematicProps> = ({ onExploreClick }) => {
   const [activeStage, setActiveStage] = useState<string>('prepare');
   const [crisisMode] = useState<CrisisMode>('advisory');
+
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -136,16 +137,19 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({ onExploreClick }) 
           </div>
 
           <div className="flex flex-wrap items-center gap-3 pt-1">
-            <a href="#genesis" className="btn btn-primary group text-sm sm:text-base py-3 px-6 shadow-lg shadow-emerald-600/20">
-              Discover Kenneth’s Vision
-              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-            </a>
             <a
               href="#platform"
               onClick={onExploreClick}
-              className="btn btn-secondary text-sm sm:text-base py-3 px-5"
+              className="btn btn-primary group text-sm sm:text-base py-3 px-6 shadow-lg shadow-emerald-600/20"
             >
               Explore AERA Platform
+              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            </a>
+            <a
+              href="#app-simulator"
+              className="btn btn-secondary text-sm sm:text-base py-3 px-5"
+            >
+              Live App Simulator
             </a>
           </div>
 
@@ -161,11 +165,7 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({ onExploreClick }) 
 
         <motion.div style={{ y: rightHudY, rotate: rightHudRotate }} className="lg:col-span-6">
           <div className="relative mx-auto max-w-md lg:max-w-none rounded-[32px] border-2 border-[#305854] dark:border-emerald-500/50 bg-white dark:bg-slate-900 p-4 sm:p-6 shadow-2xl transition-colors">
-            <div className="absolute -top-4 left-6 px-4 py-2 rounded-full bg-[#8CBB5D] text-[#203f3c] text-xs font-black shadow-lg">
-              KENNETH BREWER’S VISION IN ACTION
-            </div>
-
-            <div className="flex items-center justify-between pb-4 pt-3 border-b border-[rgba(48,88,84,0.15)] dark:border-slate-800">
+            <div className="flex items-center justify-between pb-4 border-b border-[rgba(48,88,84,0.15)] dark:border-slate-800">
               <div className="flex items-center gap-3">
                 <AeraLogo size={32} />
                 <div>
