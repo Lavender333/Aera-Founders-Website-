@@ -12,6 +12,9 @@ import {
   ShieldCheck,
   Users,
 } from 'lucide-react';
+import { giftLegacyImage } from '../assets/giftLegacyImage';
+import { palletsLegacyImage } from '../assets/palletsLegacyImage';
+import { threeKingsLegacyImage } from '../assets/threeKingsLegacyImage';
 
 const discoveries = [
   'Coordination breaks down when support organizations operate without one shared view.',
@@ -29,6 +32,8 @@ const initiatives = [
     metric: '20,000+',
     metricLabel: 'impacted children supported',
     icon: Gift,
+    image: giftLegacyImage,
+    imageAlt: 'Archival G.I.F.T. campaign material supporting children and families in Puerto Rico.',
     description:
       'A family-centered relief initiative created to bring toys, stability, hope, and practical support to children and households affected by disaster.',
     outcomes: ['Food assistance', 'Housing stability', 'Health and medical support', 'Early education', 'Hope and inspiration'],
@@ -40,6 +45,8 @@ const initiatives = [
     metric: 'Field',
     metricLabel: 'community engagement',
     icon: HeartHandshake,
+    image: threeKingsLegacyImage,
+    imageAlt: 'Archival Three Kings Day Puerto Rico field photographs showing neighborhood visits and community engagement.',
     description:
       'Direct neighborhood engagement in Puerto Rico connected recovery work with cultural celebration, household visits, listening, and relationship-building.',
     outcomes: ['Household visits', 'Community listening', 'Cultural inclusion', 'Direct support', 'Local trust'],
@@ -51,6 +58,8 @@ const initiatives = [
     metric: 'Reuse',
     metricLabel: 'before disposal',
     icon: Recycle,
+    image: palletsLegacyImage,
+    imageAlt: 'Archival Pallets of Pride material showing damaged pallets, relief supplies, reuse, and recovery concepts.',
     description:
       'A recovery concept focused on removing damaged pallets from disaster supply flows and creating safer, more useful second-life pathways for communities.',
     outcomes: ['Rebuild pallets', 'Repurpose materials', 'Recycle into mulch', 'Support safer storage', 'Create local jobs'],
@@ -164,28 +173,44 @@ export const MissionLegacy: React.FC = () => {
             {initiatives.map((initiative) => {
               const Icon = initiative.icon;
               return (
-                <article key={initiative.title} className="group flex h-full flex-col rounded-[30px] border border-white/10 bg-white p-6 text-[#132321] shadow-xl transition-transform duration-300 hover:-translate-y-1 sm:p-7">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#EAF4E7] text-[#305854] transition-transform duration-300 group-hover:scale-105">
-                      <Icon size={28} />
-                    </div>
-                    <div className="text-right">
-                      <strong className="block text-2xl font-black text-[#305854]">{initiative.metric}</strong>
-                      <span className="block max-w-28 text-[10px] font-bold uppercase tracking-wider text-neutral-500">{initiative.metricLabel}</span>
-                    </div>
+                <article key={initiative.title} className="group flex h-full flex-col overflow-hidden rounded-[30px] border border-white/10 bg-white text-[#132321] shadow-xl transition-transform duration-300 hover:-translate-y-1">
+                  <div className="relative h-40 overflow-hidden bg-[#EAF4E7] sm:h-44">
+                    <img
+                      src={initiative.image}
+                      alt={initiative.imageAlt}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#132321]/75 via-[#132321]/5 to-transparent" />
+                    <span className="absolute bottom-3 left-4 rounded-full border border-white/30 bg-[#132321]/70 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-white backdrop-blur-sm">
+                      Archival mission material
+                    </span>
                   </div>
 
-                  <span className="mt-6 text-[11px] font-black uppercase tracking-[0.16em] text-[#467857]">{initiative.eyebrow}</span>
-                  <h4 className="mt-2 text-2xl font-black">{initiative.title}</h4>
-                  <p className="mt-1 text-sm font-bold text-[#305854]">{initiative.subtitle}</p>
-                  <p className="mt-4 text-sm font-medium leading-relaxed text-neutral-700">{initiative.description}</p>
+                  <div className="flex flex-1 flex-col p-6 sm:p-7">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#EAF4E7] text-[#305854] transition-transform duration-300 group-hover:scale-105">
+                        <Icon size={28} />
+                      </div>
+                      <div className="text-right">
+                        <strong className="block text-2xl font-black text-[#305854]">{initiative.metric}</strong>
+                        <span className="block max-w-28 text-[10px] font-bold uppercase tracking-wider text-neutral-500">{initiative.metricLabel}</span>
+                      </div>
+                    </div>
 
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {initiative.outcomes.map((outcome) => (
-                      <span key={outcome} className="rounded-full border border-[#305854]/10 bg-[#F3F8F5] px-3 py-1 text-xs font-bold text-[#305854]">
-                        {outcome}
-                      </span>
-                    ))}
+                    <span className="mt-6 text-[11px] font-black uppercase tracking-[0.16em] text-[#467857]">{initiative.eyebrow}</span>
+                    <h4 className="mt-2 text-2xl font-black">{initiative.title}</h4>
+                    <p className="mt-1 text-sm font-bold text-[#305854]">{initiative.subtitle}</p>
+                    <p className="mt-4 text-sm font-medium leading-relaxed text-neutral-700">{initiative.description}</p>
+
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {initiative.outcomes.map((outcome) => (
+                        <span key={outcome} className="rounded-full border border-[#305854]/10 bg-[#F3F8F5] px-3 py-1 text-xs font-bold text-[#305854]">
+                          {outcome}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </article>
               );
