@@ -1,287 +1,355 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
-import { X, ArrowRight, Shield, Radio, Users, WifiOff, AlertTriangle } from 'lucide-react';
-import { AeraLogo } from './AeraLogo';
 
 interface SplashScreenProps {
   onDismiss: () => void;
   registeredCount?: number;
 }
 
-const STATS = [
-  { stat: "240M+", label: "911 Calls Overload Systems / Yr", icon: Radio, sub: "Avoid System Crash" },
-  { stat: "72 HRS", label: "Critical Window After Disaster", icon: Shield, sub: "Rapid Triage & Aid" },
-  { stat: "1 APP", label: "Unites Every Org in Community", icon: Users, sub: "Bridge Info Silos" },
-  { stat: "OFFLINE", label: "Store & Forward Local Sync", icon: WifiOff, sub: "Works Without Power" },
-];
+export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
+  const enterButtonRef = useRef<HTMLButtonElement>(null);
 
-export const SplashScreen: React.FC<SplashScreenProps> = ({
-  onDismiss,
-  registeredCount = 14,
-}) => {
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const focusTimer = window.setTimeout(() => enterButtonRef.current?.focus(), 250);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Enter' || event.key === 'Escape') onDismiss();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.clearTimeout(focusTimer);
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [onDismiss]);
+
   return (
     <motion.div
+      className="aera-splash"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed inset-0 z-[200] bg-[#F4F2EC] dark:bg-slate-950 text-[#101216] dark:text-slate-100 flex flex-col justify-between items-center p-5 sm:p-8 select-none overflow-y-auto antialiased"
+      transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="aeraSplashTitle"
+      aria-describedby="aeraSplashDescription"
     >
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_15%,rgba(30,77,64,0.08),transparent_60%)] dark:bg-[radial-gradient(circle_at_50%_15%,rgba(16,185,129,0.12),transparent_70%)]" />
+      <style>{`
+        .aera-splash {
+          position: fixed;
+          inset: 0;
+          z-index: 20000;
+          display: grid;
+          place-items: center;
+          min-height: 100svh;
+          padding: 28px;
+          overflow: auto;
+          isolation: isolate;
+          color: #fff;
+          background:
+            radial-gradient(circle at 50% 30%, rgba(125,207,194,.19), transparent 24%),
+            radial-gradient(circle at 14% 86%, rgba(216,189,145,.12), transparent 25%),
+            radial-gradient(circle at 87% 78%, rgba(86,154,141,.13), transparent 27%),
+            linear-gradient(145deg, #0b2927 0%, #16413d 48%, #071f1e 100%);
+        }
+        .aera-splash::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background:
+            linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+          background-size: 64px 64px;
+          mask-image: radial-gradient(circle at center, #000, transparent 72%);
+          animation: aera-splash-grid-drift 22s linear infinite;
+        }
+        .aera-splash-overlay {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background: linear-gradient(180deg, rgba(0,0,0,.08), transparent 24%, transparent 76%, rgba(0,0,0,.22));
+        }
+        .aera-splash-orbit {
+          position: absolute;
+          left: 50%;
+          top: 42%;
+          width: min(820px, 78vw);
+          aspect-ratio: 1;
+          border: 1px solid rgba(169,221,212,.08);
+          border-radius: 50%;
+          pointer-events: none;
+          transform: translate(-50%, -50%);
+          box-shadow: 0 0 0 90px rgba(169,221,212,.018), 0 0 0 180px rgba(216,189,145,.012);
+          animation: aera-splash-orbit-breathe 8s ease-in-out infinite;
+        }
+        .aera-splash-inner {
+          position: relative;
+          z-index: 1;
+          width: min(980px, 100%);
+          text-align: center;
+        }
+        .aera-splash-mark {
+          position: relative;
+          width: 104px;
+          height: 116px;
+          display: grid;
+          place-items: center;
+          margin: 0 auto 20px;
+          border: 2px solid rgba(255,255,255,.72);
+          border-radius: 58px 58px 44px 44px;
+          box-shadow: 0 0 0 10px rgba(255,255,255,.04), 0 25px 55px rgba(0,0,0,.22);
+          animation: aera-splash-pulse 4.5s ease-in-out infinite, aera-splash-float 6s ease-in-out infinite;
+        }
+        .aera-splash-mark::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          bottom: -13px;
+          width: 26px;
+          height: 26px;
+          border-right: 2px solid #cda76d;
+          border-bottom: 2px solid #cda76d;
+          transform: translateX(-50%) rotate(45deg);
+          background: #183936;
+        }
+        .aera-splash-logo {
+          position: relative;
+          z-index: 2;
+          width: 86px;
+          height: 96px;
+          filter: drop-shadow(0 9px 18px rgba(0,0,0,.22));
+        }
+        .aera-splash-brand {
+          display: grid;
+          justify-items: center;
+          gap: 5px;
+          margin: 0 auto 14px;
+        }
+        .aera-splash-name {
+          color: #fff;
+          font: 900 clamp(1.35rem, 2.4vw, 1.8rem)/1 system-ui, sans-serif;
+          letter-spacing: .25em;
+          text-indent: .25em;
+        }
+        .aera-splash-expanded {
+          color: #9dd5cd;
+          font: 800 clamp(.72rem, 1.4vw, .88rem)/1.35 system-ui, sans-serif;
+          letter-spacing: .16em;
+          text-transform: uppercase;
+        }
+        .aera-splash h1 {
+          max-width: 920px;
+          margin: 22px auto 0;
+          color: #fff !important;
+          font-family: Georgia, "Times New Roman", serif !important;
+          font-size: clamp(3.6rem, 7.2vw, 6.6rem);
+          font-weight: 500 !important;
+          line-height: .9;
+          letter-spacing: -.055em;
+          text-wrap: balance;
+          animation: aera-splash-title-in .9s .18s cubic-bezier(.16,1,.3,1) both;
+        }
+        .aera-splash h1 span { display: block; color: inherit !important; }
+        .aera-splash h1 .aera-splash-headline-accent {
+          margin-top: .08em;
+          color: #a9ddd4 !important;
+          font-style: italic;
+        }
+        .aera-splash-status {
+          display: grid;
+          gap: 12px;
+          width: min(650px, 100%);
+          margin: 26px auto 0;
+        }
+        .aera-splash-live {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 9px;
+          color: #d8bd91;
+          font-size: .68rem;
+          font-weight: 900;
+          letter-spacing: .2em;
+          text-transform: uppercase;
+        }
+        .aera-splash-live i {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #9dd5cd;
+          box-shadow: 0 0 0 7px rgba(157,213,205,.1);
+          animation: aera-splash-live-pulse 1.8s ease-in-out infinite;
+        }
+        .aera-splash-flow {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: clamp(8px, 2vw, 20px);
+          color: #fff;
+          font-size: clamp(.72rem, 1.5vw, .9rem);
+          font-weight: 900;
+          letter-spacing: .12em;
+          text-transform: uppercase;
+        }
+        .aera-splash-flow span {
+          opacity: 0;
+          transform: translateY(8px);
+          animation: aera-splash-step-in .5s cubic-bezier(.16,1,.3,1) forwards;
+        }
+        .aera-splash-flow span:nth-of-type(1) { animation-delay: .8s; }
+        .aera-splash-flow span:nth-of-type(2) { animation-delay: 1.2s; }
+        .aera-splash-flow span:nth-of-type(3) { animation-delay: 1.6s; }
+        .aera-splash-flow span:nth-of-type(4) {
+          color: #9dd5cd;
+          animation: aera-splash-step-in .5s 2s cubic-bezier(.16,1,.3,1) forwards, aera-splash-recover-glow 2.2s 2.7s ease-in-out infinite;
+        }
+        .aera-splash-flow i {
+          color: #d8bd91;
+          font-size: 1.05rem;
+          font-style: normal;
+          opacity: 0;
+          transform: translateX(-8px);
+          animation: aera-splash-arrow-in .38s cubic-bezier(.16,1,.3,1) forwards;
+        }
+        .aera-splash-flow i:nth-of-type(1) { animation-delay: 1.02s; }
+        .aera-splash-flow i:nth-of-type(2) { animation-delay: 1.42s; }
+        .aera-splash-flow i:nth-of-type(3) { animation-delay: 1.82s; }
+        .aera-splash-enter {
+          position: relative;
+          overflow: hidden;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          min-width: 190px;
+          min-height: 56px;
+          margin-top: 32px;
+          padding: 0 28px;
+          border: 1px solid rgba(255,255,255,.32);
+          border-radius: 999px;
+          background: #fff;
+          color: #305854;
+          font: 900 .82rem/1 system-ui, sans-serif;
+          letter-spacing: .13em;
+          text-transform: uppercase;
+          cursor: pointer;
+          box-shadow: 0 18px 44px rgba(0,0,0,.24), inset 0 0 0 1px rgba(255,255,255,.4);
+          transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+        }
+        .aera-splash-enter::before {
+          content: "";
+          position: absolute;
+          inset: -2px auto -2px -45%;
+          width: 30%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,.72), transparent);
+          transform: skewX(-18deg);
+          animation: aera-splash-button-sheen 5s 2.8s ease-in-out infinite;
+        }
+        .aera-splash-enter::after { content: "→"; font-size: 1.05rem; }
+        .aera-splash-enter:hover {
+          transform: translateY(-3px);
+          background: #f4eee4;
+          box-shadow: 0 24px 54px rgba(0,0,0,.28);
+        }
+        .aera-splash-enter:focus-visible { outline: 3px solid #d8bd91; outline-offset: 5px; }
+        .aera-splash-credit {
+          display: block;
+          margin-top: 24px;
+          color: rgba(255,255,255,.56);
+          font-size: .67rem;
+          font-weight: 800;
+          letter-spacing: .17em;
+          text-transform: uppercase;
+        }
+        @keyframes aera-splash-grid-drift { to { background-position: 72px 72px; } }
+        @keyframes aera-splash-orbit-breathe { 0%,100% { opacity:.55; scale:.96; } 50% { opacity:1; scale:1.03; } }
+        @keyframes aera-splash-float { 0%,100% { translate:0 0; } 50% { translate:0 -7px; } }
+        @keyframes aera-splash-title-in { from { opacity:0; translate:0 18px; filter:blur(5px); } to { opacity:1; translate:0 0; filter:blur(0); } }
+        @keyframes aera-splash-button-sheen { 0%,62% { left:-45%; } 82%,100% { left:125%; } }
+        @keyframes aera-splash-pulse {
+          0%,100% { transform:scale(1); box-shadow:0 0 0 10px rgba(255,255,255,.04), 0 25px 55px rgba(0,0,0,.22); }
+          50% { transform:scale(1.045); box-shadow:0 0 0 17px rgba(157,213,205,.07), 0 30px 65px rgba(0,0,0,.26); }
+        }
+        @keyframes aera-splash-live-pulse { 0%,100% { transform:scale(1); opacity:.72; } 50% { transform:scale(1.45); opacity:1; } }
+        @keyframes aera-splash-step-in { to { opacity:1; transform:translateY(0); } }
+        @keyframes aera-splash-arrow-in { to { opacity:1; transform:translateX(0); } }
+        @keyframes aera-splash-recover-glow { 0%,100% { text-shadow:0 0 0 rgba(157,213,205,0); } 50% { text-shadow:0 0 18px rgba(157,213,205,.72); } }
+        @media (max-width: 640px) {
+          .aera-splash { padding: 22px; }
+          .aera-splash-mark { width: 82px; height: 92px; margin-bottom: 17px; }
+          .aera-splash-logo { width: 70px; height: 80px; }
+          .aera-splash-brand { margin-bottom: 12px; }
+          .aera-splash-expanded { max-width: 29ch; letter-spacing: .11em; }
+          .aera-splash h1 { margin-top: 18px; font-size: clamp(2.75rem, 13vw, 4.25rem); line-height: .92; }
+          .aera-splash-status { margin-top: 23px; }
+          .aera-splash-flow { gap: 7px; font-size: .59rem; letter-spacing: .045em; }
+          .aera-splash-flow i { font-size: .84rem; }
+          .aera-splash-enter { margin-top: 28px; }
+          .aera-splash-credit { font-size: .58rem; letter-spacing: .12em; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .aera-splash::before, .aera-splash-orbit, .aera-splash-mark, .aera-splash h1,
+          .aera-splash-live i, .aera-splash-flow span, .aera-splash-flow i, .aera-splash-enter::before { animation: none; }
+          .aera-splash-flow span, .aera-splash-flow i { opacity: 1; transform: none; }
+          .aera-splash-enter { transition: none; }
+        }
+      `}</style>
 
-      <div className="w-full max-w-md flex justify-between items-center shrink-0 z-10 pt-1">
-        <motion.div
-          initial={{ opacity: 0, x: -12 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, delay: 0.08 }}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1E4D40]/10 text-[#1E4D40] dark:bg-emerald-950/80 dark:text-emerald-300 text-xs font-bold border border-[#1E4D40]/20 shadow-xs"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4BB055] opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4BB055]" />
-          </span>
-          <span className="font-mono tracking-wider text-[11px] uppercase">AERA System Active</span>
-        </motion.div>
+      <div className="aera-splash-overlay" aria-hidden="true" />
+      <div className="aera-splash-orbit" aria-hidden="true" />
 
-        <motion.button
-          initial={{ opacity: 0, x: 12 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, delay: 0.08 }}
-          onClick={onDismiss}
-          className="p-2.5 rounded-full hover:bg-[#1E4D40]/10 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all touch-manipulation active:scale-95"
-          aria-label="Close splash screen"
-        >
-          <X size={20} />
-        </motion.button>
-      </div>
-
-      <div className="flex flex-col items-center text-center my-auto w-full max-w-md space-y-5 py-4 z-10">
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0, y: 14 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-22 h-22 sm:w-26 sm:h-26 flex items-center justify-center my-1 group"
-        >
-          <div className="absolute inset-0 rounded-full bg-[#1E4D40]/15 dark:bg-emerald-500/20 blur-xl scale-125 transition-all duration-700 group-hover:scale-150" />
-          <svg
-            viewBox="0 0 200 200"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-full h-full drop-shadow-lg relative z-10 transform transition-transform duration-500 hover:scale-105"
-          >
+      <div className="aera-splash-inner">
+        <div className="aera-splash-mark" aria-hidden="true">
+          <svg className="aera-splash-logo" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#1E4D40" />
-                <stop offset="50%" stopColor="#2E6252" />
-                <stop offset="100%" stopColor="#15362E" />
+              <linearGradient id="legacyShield" x1="28" y1="20" x2="168" y2="188" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#2E6252" />
+                <stop offset="1" stopColor="#15362E" />
               </linearGradient>
-              <linearGradient id="swooshGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#7CC344" />
-                <stop offset="50%" stopColor="#4BB055" />
-                <stop offset="100%" stopColor="#2E8047" />
+              <linearGradient id="legacySwoosh" x1="20" y1="55" x2="174" y2="160" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#9DD5CD" />
+                <stop offset=".5" stopColor="#7CC344" />
+                <stop offset="1" stopColor="#2E8047" />
               </linearGradient>
-              <filter id="shadowFilter" x="-10%" y="-10%" width="120%" height="120%">
-                <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#1E4D40" floodOpacity="0.25" />
-              </filter>
             </defs>
-            <path
-              d="M100 22 C135 22, 160 38, 160 85 C160 132, 125 168, 100 178 C75 168, 40 132, 40 85 C40 38, 65 22, 100 22 Z"
-              fill="url(#shieldGrad)"
-              filter="url(#shadowFilter)"
-            />
-            <path
-              d="M100 32 C128 32, 148 46, 148 85 C148 124, 120 154, 100 163 C80 154, 52 124, 52 85 C52 46, 72 32, 100 32 Z"
-              fill="none"
-              stroke="#4BB055"
-              strokeWidth="3.5"
-              strokeOpacity="0.75"
-            />
-            <path
-              d="M62 108 L84 82 C88 78, 92 78, 96 82 L108 96 L122 74 C126 68, 132 68, 136 74 L146 90"
-              fill="none"
-              stroke="#E2F1E5"
-              strokeWidth="5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M32 106 C30 78, 62 50, 115 42 C160 35, 178 58, 162 82 C146 106, 88 132, 42 122 C34 120, 28 114, 32 106 Z"
-              fill="url(#swooshGrad)"
-              className="drop-shadow-sm"
-            />
-            <path
-              d="M40 102 C55 68, 110 48, 152 54 C164 56, 162 70, 148 86 C128 108, 80 124, 46 114"
-              fill="none"
-              stroke="#A3E635"
-              strokeWidth="2.5"
-              strokeOpacity="0.8"
-            />
+            <path d="M100 18C139 18 165 36 165 88C165 142 128 182 100 194C72 182 35 142 35 88C35 36 61 18 100 18Z" fill="url(#legacyShield)" stroke="#D8BD91" strokeWidth="4" />
+            <path d="M100 32C130 32 151 47 151 88C151 129 121 161 100 171C79 161 49 129 49 88C49 47 70 32 100 32Z" stroke="#9DD5CD" strokeWidth="3" opacity=".72" />
+            <path d="M56 119L82 87C87 81 93 81 98 87L110 101L127 76C132 68 140 69 145 77" stroke="#EAF7F3" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M23 120C22 83 60 51 119 43C167 36 185 61 166 89C145 120 87 147 38 136C28 134 22 128 23 120Z" fill="url(#legacySwoosh)" />
+            <path d="M36 114C55 77 112 54 156 62C169 64 164 79 149 96C126 121 77 136 42 126" stroke="#D9F7C6" strokeWidth="3" strokeLinecap="round" opacity=".8" />
           </svg>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.12 }}
-          className="space-y-1.5"
-        >
-          <span className="inline-block font-mono text-[11px] sm:text-xs tracking-[0.25em] font-extrabold text-[#B08D3E] dark:text-amber-400 uppercase">
-            AERA PLATFORM
-          </span>
-          <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#16233B] dark:text-white leading-[1.08] tracking-tight">
-            Communication
-            <br />
-            must continue.
-          </h1>
-          <p className="text-xs sm:text-sm font-semibold tracking-wider text-[#305854] dark:text-emerald-300 pt-0.5">
-            "Mitigate • Communicate • Respond • Recover"
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.18 }}
-          className="w-full bg-white/60 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 rounded-xl p-3 shadow-2xs text-center"
-        >
-          <div className="flex items-center justify-center gap-1.5 mb-1.5">
-            <span className="w-2 h-2 rounded-full bg-[#4BB055] animate-pulse" />
-            <span className="font-mono text-[10px] font-bold tracking-[0.2em] text-[#305854] dark:text-emerald-300 uppercase">
-              LIVE EMERGENCY STATUS FLOW
-            </span>
-          </div>
-          <div className="flex items-center justify-between px-2 font-mono text-[11px] font-extrabold text-[#16233B] dark:text-slate-200 uppercase">
-            <span>PREPARE</span>
-            <span className="text-[#4BB055] font-sans">→</span>
-            <span>REPORT</span>
-            <span className="text-[#4BB055] font-sans">→</span>
-            <span>COORDINATE</span>
-            <span className="text-[#4BB055] font-sans">→</span>
-            <span>RECOVER</span>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.22 }}
-          className="w-full bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm space-y-3 text-left"
-        >
-          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
-            <div className="flex items-center gap-2">
-              <AeraLogo size={22} />
-              <span className="font-extrabold text-xs tracking-widest text-[#16233B] dark:text-white">AERA</span>
-            </div>
-            <span className="text-[10px] font-mono font-bold tracking-widest uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-              OPERATING MODEL
-            </span>
-          </div>
-          <div>
-            <span className="text-[10px] font-mono font-bold tracking-widest text-[#B08D3E] dark:text-amber-400 uppercase">
-              ONE SHARED OPERATING PICTURE
-            </span>
-            <p className="text-sm sm:text-base font-serif font-bold text-[#16233B] dark:text-white leading-tight mt-0.5">
-              Who is safe. What is needed. What happens next.
-            </p>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-0.5">
-            {[
-              { num: '01', title: 'Prepare' },
-              { num: '02', title: 'Report' },
-              { num: '03', title: 'Coordinate' },
-              { num: '04', title: 'Recover' },
-            ].map((step) => (
-              <div
-                key={step.num}
-                className="p-2 rounded-xl bg-[#F4F2EC] dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 flex flex-col items-start gap-1"
-              >
-                <span className="w-5 h-5 rounded-full bg-[#1E4D40] text-white text-[10px] font-bold flex items-center justify-center shrink-0">
-                  {step.num}
-                </span>
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                  {step.title}
-                </span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        <div className="w-full space-y-2.5 pt-1">
-          {STATS.map((item, idx) => {
-            const IconComponent = item.icon;
-            return (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, x: -16, y: 10 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
-                transition={{
-                  duration: 0.42,
-                  delay: 0.26 + idx * 0.08,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                whileHover={{ scale: 1.015, x: 2 }}
-                className="flex items-center justify-between px-4 py-3 bg-white/85 dark:bg-slate-900/90 border border-[#B08D3E]/70 dark:border-amber-500/50 rounded-xl shadow-xs transition-shadow hover:shadow-md"
-              >
-                <div className="flex items-center gap-2.5 text-left pr-2 min-w-0">
-                  <div className="p-1.5 rounded-md bg-[#B08D3E]/10 dark:bg-amber-400/10 shrink-0">
-                    <IconComponent size={16} className="text-[#B08D3E] dark:text-amber-400" />
-                  </div>
-                  <div className="min-w-0">
-                    <span className="block font-mono text-[10px] sm:text-[11px] font-bold tracking-widest text-[#5B6470] dark:text-slate-300 uppercase truncate">
-                      {item.label}
-                    </span>
-                    {item.sub && (
-                      <span className="block text-[10px] text-[#305854] dark:text-emerald-400 font-medium">
-                        {item.sub}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <span className="font-serif font-bold text-lg sm:text-xl text-[#16233B] dark:text-emerald-400 shrink-0 pl-2">
-                  {item.stat}
-                </span>
-              </motion.div>
-            );
-          })}
-
-          <motion.div
-            initial={{ opacity: 0, x: -16, y: 10 }}
-            animate={{ opacity: 1, x: 0, y: 0 }}
-            transition={{
-              duration: 0.42,
-              delay: 0.26 + STATS.length * 0.08,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-            whileHover={{ scale: 1.015, x: 2 }}
-            className="flex items-center justify-between px-4 py-3 bg-[#1E4D40]/10 dark:bg-emerald-950/50 border border-[#1E4D40]/30 dark:border-emerald-700/60 rounded-xl shadow-xs"
-          >
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-pulse" />
-              <span className="font-mono text-[10px] sm:text-[11px] font-bold tracking-widest text-[#1E4D40] dark:text-emerald-300 uppercase">
-                PEOPLE REGISTERED IN NETWORK
-              </span>
-            </div>
-            <span className="font-serif font-bold text-lg text-[#1E4D40] dark:text-emerald-300">
-              {registeredCount}
-            </span>
-          </motion.div>
         </div>
-      </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, delay: 0.6 }}
-        className="w-full max-w-md pt-2 shrink-0 z-10"
-      >
-        <button
-          onClick={onDismiss}
-          className="group w-full py-4 px-6 bg-[#305854] dark:bg-emerald-700 hover:bg-[#234542] dark:hover:bg-emerald-600 active:scale-[0.98] text-[#F4F2EC] font-bold text-xs sm:text-sm tracking-[0.18em] rounded-xl shadow-lg transition-all touch-manipulation uppercase flex items-center justify-center gap-3"
-        >
-          <span>Explore AERA Platform</span>
-          <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+        <div className="aera-splash-brand">
+          <span className="aera-splash-name">AERA</span>
+          <span className="aera-splash-expanded">Accelerated Emergency Response App</span>
+        </div>
+
+        <h1 id="aeraSplashTitle">
+          <span>Communication</span>
+          <span className="aera-splash-headline-accent">must continue.</span>
+        </h1>
+
+        <div className="aera-splash-status" id="aeraSplashDescription">
+          <span className="aera-splash-live"><i aria-hidden="true" />Live emergency status</span>
+          <div className="aera-splash-flow" aria-label="Prepare, Report, Coordinate, Recover">
+            <span>Prepare</span><i aria-hidden="true">→</i>
+            <span>Report</span><i aria-hidden="true">→</i>
+            <span>Coordinate</span><i aria-hidden="true">→</i>
+            <span>Recover</span>
+          </div>
+        </div>
+
+        <button ref={enterButtonRef} className="aera-splash-enter" type="button" onClick={onDismiss}>
+          Enter AERA
         </button>
-      </motion.div>
+        <small className="aera-splash-credit">Founder Kenneth Brewer</small>
+      </div>
     </motion.div>
   );
 };
