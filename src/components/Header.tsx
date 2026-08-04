@@ -45,7 +45,7 @@ export const Header: React.FC<HeaderProps> = ({
   const navItems = [
     { label: 'Vision', href: '#genesis', section: 'genesis' },
     { label: 'Legacy', href: '#legacy', section: 'legacy' },
-    { label: 'Leadership', href: '#founders', section: 'founders' },
+    { label: 'POD Model', href: '#pod-model', section: 'pod-model' },
     { label: 'Platform', href: '#platform', section: 'platform' },
     { label: 'Trust', href: '#trust', section: 'trust' },
   ];
@@ -180,8 +180,8 @@ export const Header: React.FC<HeaderProps> = ({
               type="button"
             >
               <span>
-                <span className="block text-[9px] uppercase tracking-[0.18em] text-[#B9E58B]">12-minute walkthrough</span>
-                Executive Presentation
+                <span className="block text-[9px] uppercase tracking-[0.18em] text-[#B9E58B]">Executive walkthrough</span>
+                View Presentation
               </span>
               <MonitorPlay size={21} />
             </button>
