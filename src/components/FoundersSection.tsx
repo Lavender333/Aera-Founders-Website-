@@ -1,14 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { FounderSlide } from '../types';
-import { ChevronLeft, ChevronRight, CheckCircle, Pause, Play } from 'lucide-react';
+import { CheckCircle, ArrowRight, Cpu, Compass, Users } from 'lucide-react';
 
 export const FoundersSection: React.FC = () => {
-  const [activeSlide, setActiveSlide] = useState<number>(0);
-  const [isPaused, setIsPaused] = useState<boolean>(false);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  const sectionRef = useRef<HTMLElement>(null);
+  const sectionRef = React.useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
@@ -16,187 +11,117 @@ export const FoundersSection: React.FC = () => {
 
   const portraitY = useTransform(scrollYProgress, [0, 1], [-25, 25]);
 
-  const founders: FounderSlide[] = [
-    {
-      id: 'ken',
-      name: 'Ken',
-      role: 'Co-Founder · Originator of the AERA Vision',
-      monogram: 'K',
-      portraitClass: 'bg-[#305854]',
-      intro: 'Ken focused on the confusion that follows an emergency when critical answers are scattered across disjointed channels.',
-      bullets: [
-        'He saw the gap: safety checks, locations, needs, and resources were scattered.',
-        'He changed the question: the goal was not another alert, but a shared picture for action.',
-        'He defined the vision: one system for readiness, status, resources, response, and recovery.',
-      ],
-      quote: 'How can people stay prepared, connected, and coordinated when communication fails?',
-    },
-    {
-      id: 'antoinette',
-      name: 'Antoinette Williams',
-      role: 'Co-Founder · Platform Architect and Lead Developer',
-      monogram: 'A',
-      portraitClass: 'bg-[#467857]',
-      bullets: [
-        'Defined product requirements, user experience, and core workflows.',
-        'Built the full-stack architecture, offline capabilities, and working software.',
-        'Co-created the name and visual identity for AERA.',
-        'Leads technology, platform growth, and ongoing system engineering.',
-      ],
-      quote: 'Building for emergency readiness means designing for clarity under stress and performance through outages.',
-    },
-    {
-      id: 'mission',
-      name: 'Ken + Antoinette',
-      role: 'Shared Mission',
-      monogram: 'K + A',
-      portraitClass: 'bg-[#8CBB5D] text-black',
-      bullets: [
-        'Original Vision: Rooted in human safety and community resilience.',
-        'Product & Brand Execution: Engineering precision with refined civic design.',
-        'Continued Platform Growth: Expanding institutional capabilities and trust.',
-      ],
-      quote: 'One vision. One working platform. Built to serve communities when it matters most.',
-    },
-  ];
-
-  const nextSlide = () => {
-    setActiveSlide((prev) => (prev + 1) % founders.length);
-  };
-
-  const prevSlide = () => {
-    setActiveSlide((prev) => (prev - 1 + founders.length) % founders.length);
-  };
-
-  useEffect(() => {
-    if (!isPaused) {
-      timerRef.current = setInterval(() => {
-        nextSlide();
-      }, 7000);
-    }
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [isPaused, activeSlide]);
-
-  const current = founders[activeSlide];
-
   return (
     <section ref={sectionRef} className="py-20 bg-white" id="founders">
       <div className="container mx-auto px-4 md:px-8">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
           <div>
-            <span className="eyebrow">The Founders</span>
-            <h2 className="text-3xl sm:text-5xl font-black text-black mt-3">
-              Distinct roles. Shared mission.
+            <span className="eyebrow">Founder Leadership</span>
+            <h2 className="text-3xl sm:text-5xl font-black text-black mt-3 max-w-3xl">
+              One founding vision. A platform built to make it real.
             </h2>
           </div>
           <p className="lead text-neutral-800 max-w-xl">
-            Ken defined the need and vision. Antoinette built the product, architecture, and brand identity.
+            Kenneth Brewer originated AERA’s founding insight and response model. Antoinette Williams transformed that vision into product architecture and working technology.
           </p>
         </div>
 
-        {/* Carousel Container */}
-        <div
-          className="relative bg-[#FAFBFA] rounded-[32px] border border-[rgba(48,88,84,0.18)] p-6 sm:p-10 shadow-xl overflow-hidden"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[440px]">
-            {/* Left Monogram / Portrait Badge */}
-            <motion.div style={{ y: portraitY }} className="lg:col-span-4 flex flex-col items-center justify-center">
-              <div
-                className={`w-40 h-40 sm:w-56 sm:h-56 rounded-3xl flex items-center justify-center text-white font-black text-5xl sm:text-7xl shadow-lg transition-all duration-500 ${current.portraitClass}`}
-              >
-                {current.monogram}
-              </div>
-              <span className="text-xs font-bold text-[#305854] tracking-widest uppercase mt-4">
-                {current.name}
-              </span>
-            </motion.div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          <article className="lg:col-span-8 relative overflow-hidden rounded-[36px] bg-[#305854] text-white p-7 sm:p-10 lg:p-12 shadow-2xl">
+            <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-[#8CBB5D]/20 blur-3xl" />
+            <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+              <motion.div style={{ y: portraitY }} className="md:col-span-4 flex flex-col items-center md:items-start">
+                <div className="w-44 h-44 sm:w-52 sm:h-52 rounded-[32px] bg-white text-[#305854] flex items-center justify-center font-black text-6xl sm:text-7xl shadow-xl border-4 border-white/30">
+                  KB
+                </div>
+                <span className="text-xs font-bold text-[#8CBB5D] tracking-[0.2em] uppercase mt-5">
+                  Founder &amp; Visionary
+                </span>
+              </motion.div>
 
-            {/* Right Copy Content */}
-            <div className="lg:col-span-8 flex flex-col gap-5">
-              <span className="kicker text-xs text-[#305854] font-bold tracking-widest uppercase">
-                {current.role}
-              </span>
-
-              <h3 className="text-2xl sm:text-4xl font-black text-black">
-                {current.name}
-              </h3>
-
-              {current.intro && (
-                <p className="lead text-base sm:text-lg text-neutral-800">
-                  {current.intro}
+              <div className="md:col-span-8 flex flex-col gap-5">
+                <span className="text-xs text-[#8CBB5D] font-bold tracking-[0.18em] uppercase">
+                  Kenneth Brewer · Founder and Chief Executive
+                </span>
+                <h3 className="text-3xl sm:text-5xl font-black leading-tight">
+                  The driving vision behind AERA.
+                </h3>
+                <p className="text-base sm:text-lg text-white/90 leading-relaxed font-medium">
+                  Kenneth Brewer recognized that emergency systems often alert people to danger without giving families, organizations, and leaders one dependable path toward coordinated action.
                 </p>
-              )}
 
-              {/* Bullet Points */}
-              <div className="flex flex-col gap-3 my-2">
-                {current.bullets.map((bullet, i) => (
-                  <div key={i} className="flex items-start gap-3 text-sm sm:text-base text-neutral-900 font-semibold">
-                    <CheckCircle className="text-[#305854] shrink-0 mt-0.5" size={20} />
-                    <span>{bullet}</span>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="rounded-2xl bg-white/10 border border-white/15 p-4">
+                    <Compass className="text-[#8CBB5D] mb-3" size={24} />
+                    <strong className="block text-sm">Originated the Vision</strong>
+                    <span className="text-xs text-white/75 block mt-1">Defined the missing link between alerts and action.</span>
                   </div>
-                ))}
-              </div>
+                  <div className="rounded-2xl bg-white/10 border border-white/15 p-4">
+                    <Users className="text-[#8CBB5D] mb-3" size={24} />
+                    <strong className="block text-sm">Leads the Mission</strong>
+                    <span className="text-xs text-white/75 block mt-1">Guides partnerships, strategy, and institutional growth.</span>
+                  </div>
+                  <div className="rounded-2xl bg-white/10 border border-white/15 p-4">
+                    <ArrowRight className="text-[#8CBB5D] mb-3" size={24} />
+                    <strong className="block text-sm">Shapes the Future</strong>
+                    <span className="text-xs text-white/75 block mt-1">Advances a connected model for readiness and recovery.</span>
+                  </div>
+                </div>
 
-              {/* Founder Quote */}
-              {current.quote && (
-                <blockquote className="p-4 rounded-xl bg-[#F3F8F5] border-l-4 border-[#305854] text-sm sm:text-base font-bold text-[#305854] italic">
-                  "{current.quote}"
+                <blockquote className="p-5 rounded-2xl bg-white text-[#305854] border-l-4 border-[#8CBB5D] text-base sm:text-lg font-black italic leading-relaxed shadow-lg">
+                  “How can people stay prepared, connected, and coordinated when communication fails?”
                 </blockquote>
-              )}
+              </div>
             </div>
-          </div>
+          </article>
 
-          {/* Controls Bar */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-6 border-t border-[rgba(48,88,84,0.18)]">
-            {/* Dots */}
-            <div className="flex items-center gap-2">
-              {founders.map((f, idx) => (
-                <button
-                  key={f.id}
-                  type="button"
-                  onClick={() => setActiveSlide(idx)}
-                  className={`w-3 h-3 rounded-full transition-all ${
-                    activeSlide === idx ? 'bg-[#305854] w-8' : 'bg-neutral-300 hover:bg-neutral-400'
-                  }`}
-                  aria-label={`Go to slide ${idx + 1}`}
-                />
+          <aside className="lg:col-span-4 rounded-[32px] bg-[#F3F8F5] border border-[rgba(48,88,84,0.18)] p-7 sm:p-9 shadow-xl flex flex-col justify-between gap-8">
+            <div>
+              <div className="w-24 h-24 rounded-3xl bg-[#467857] text-white flex items-center justify-center font-black text-4xl shadow-lg mb-6">
+                AW
+              </div>
+              <span className="text-xs text-[#305854] font-bold tracking-[0.16em] uppercase">
+                Antoinette Williams
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-black text-black mt-2">
+                Co-Founder and Chief Product &amp; Systems Architect
+              </h3>
+              <p className="text-neutral-800 font-medium leading-relaxed mt-4">
+                Antoinette helped bring Kenneth Brewer’s founding vision to life by defining the product requirements, architecture, workflows, user experience, and working software behind AERA.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              {[
+                'Led platform architecture and full-stack product development.',
+                'Designed core user roles, workflows, and system experiences.',
+                'Co-created AERA’s name and visual identity.',
+                'Leads ongoing technology and platform engineering.',
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3 text-sm text-neutral-900 font-semibold">
+                  <CheckCircle className="text-[#305854] shrink-0 mt-0.5" size={19} />
+                  <span>{item}</span>
+                </div>
               ))}
-              <button
-                type="button"
-                onClick={() => setIsPaused(!isPaused)}
-                className="ml-3 text-neutral-500 hover:text-black p-1 text-xs font-mono font-bold flex items-center gap-1"
-                title={isPaused ? 'Resume auto-play' : 'Pause auto-play'}
-              >
-                {isPaused ? <Play size={14} /> : <Pause size={14} />}
-                <span>{isPaused ? 'PLAY' : 'PAUSE'}</span>
-              </button>
             </div>
 
-            {/* Arrows */}
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={prevSlide}
-                className="round-btn"
-                aria-label="Previous slide"
-              >
-                <ChevronLeft size={20} />
-              </button>
-              <button
-                type="button"
-                onClick={nextSlide}
-                className="round-btn"
-                aria-label="Next slide"
-              >
-                <ChevronRight size={20} />
-              </button>
+            <div className="p-4 rounded-2xl bg-white border border-[rgba(48,88,84,0.18)]">
+              <div className="flex items-center gap-2 text-[#305854] mb-2">
+                <Cpu size={19} />
+                <strong className="text-xs uppercase tracking-wider">Platform Leadership</strong>
+              </div>
+              <p className="text-sm text-neutral-800 font-semibold leading-relaxed">
+                Technical clarity, resilient systems, and execution under real-world emergency conditions.
+              </p>
             </div>
-          </div>
+          </aside>
+        </div>
+
+        <div className="mt-8 p-6 sm:p-8 rounded-[28px] border border-[rgba(48,88,84,0.18)] bg-[#FAFBFA] text-center">
+          <span className="eyebrow">The AERA Team</span>
+          <p className="text-xl sm:text-2xl font-black text-[#305854] mt-3">
+            Kenneth Brewer founded the vision. Antoinette Williams led the architecture that helped bring it to life.
+          </p>
         </div>
       </div>
     </section>
