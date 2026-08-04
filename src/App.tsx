@@ -5,8 +5,8 @@ import { HeroCinematic } from './components/HeroCinematic';
 import { GenesisStory } from './components/GenesisStory';
 import { MissionLegacy } from './components/MissionLegacy';
 import { FoundersSection } from './components/FoundersSection';
-import { PresentationCallout } from './components/PresentationCallout';
-import { PresentationModal } from './components/PresentationModal';
+import { PodModelSection } from './components/PodModelSection';
+import { AeraPresentationModal } from './components/AeraPresentationModal';
 import { AeraAppSimulator } from './components/AeraAppSimulator';
 import { PlatformWorkflows } from './components/PlatformWorkflows';
 import { EnterpriseSection } from './components/EnterpriseSection';
@@ -52,7 +52,7 @@ export default function App() {
         'genesis',
         'legacy',
         'founders',
-        'presentation',
+        'pod-model',
         'app-simulator',
         'platform',
         'enterprise',
@@ -141,7 +141,14 @@ export default function App() {
           <FoundersSection />
         </motion.div>
 
-        <PresentationCallout onOpenPresentation={openPresentation} />
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.08 }}
+          variants={sectionAnimation}
+        >
+          <PodModelSection onOpenPresentation={openPresentation} />
+        </motion.div>
 
         <motion.div
           initial="hidden"
@@ -198,10 +205,9 @@ export default function App() {
         onOpenPresentation={openPresentation}
       />
 
-      <PresentationModal
+      <AeraPresentationModal
         isOpen={presentationOpen}
         onClose={() => setPresentationOpen(false)}
-        onOpenConsultation={() => handleOpenConsultation('Executive Presentation Follow-Up')}
       />
 
       <ConsultationModal
