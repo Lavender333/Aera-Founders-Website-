@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import { Header } from './components/Header';
 import { HeroCinematic } from './components/HeroCinematic';
 import { GenesisStory } from './components/GenesisStory';
 import { MissionLegacy } from './components/MissionLegacy';
 import { FoundersSection } from './components/FoundersSection';
+import { PresentationCallout } from './components/PresentationCallout';
+import { PresentationModal } from './components/PresentationModal';
 import { AeraAppSimulator } from './components/AeraAppSimulator';
 import { PlatformWorkflows } from './components/PlatformWorkflows';
 import { EnterpriseSection } from './components/EnterpriseSection';
@@ -32,6 +34,7 @@ export default function App() {
   const [scrollPercent, setScrollPercent] = useState<number>(0);
   const [currentSection, setCurrentSection] = useState<string>('top');
   const [showSplash, setShowSplash] = useState<boolean>(true);
+  const [presentationOpen, setPresentationOpen] = useState<boolean>(false);
 
   const [consultationOpen, setConsultationOpen] = useState<boolean>(false);
   const [consultationTopic, setConsultationTopic] = useState<string>('');
@@ -44,14 +47,24 @@ export default function App() {
       const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
       setScrollPercent(Math.min(100, Math.max(0, progress)));
 
-      const sections = ['top', 'genesis', 'legacy', 'founders', 'app-simulator', 'platform', 'enterprise', 'trust'];
+      const sections = [
+        'top',
+        'genesis',
+        'legacy',
+        'founders',
+        'presentation',
+        'app-simulator',
+        'platform',
+        'enterprise',
+        'trust',
+      ];
       const marker = window.innerHeight * 0.4;
-      for (const sec of sections) {
-        const el = document.getElementById(sec);
-        if (el) {
-          const rect = el.getBoundingClientRect();
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
           if (rect.top <= marker && rect.bottom >= 0) {
-            setCurrentSection(sec);
+            setCurrentSection(section);
           }
         }
       }
@@ -67,11 +80,16 @@ export default function App() {
     setConsultationOpen(true);
   };
 
+  const openPresentation = () => {
+    setShowSplash(false);
+    setPresentationOpen(true);
+  };
+
   return (
-    <div className="min-h-screen bg-white text-black flex flex-col selection:bg-[#8CBB5D] selection:text-[#305854]">
+    <div className="flex min-h-screen flex-col bg-white text-black selection:bg-[#8CBB5D] selection:text-[#305854]">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-[130] bg-[#305854] text-white px-4 py-2 rounded-full font-bold text-xs"
+        className="sr-only z-[130] rounded-full bg-[#305854] px-4 py-2 text-xs font-bold text-white focus:fixed focus:left-4 focus:top-4 focus:not-sr-only"
       >
         Skip to main content
       </a>
@@ -87,6 +105,7 @@ export default function App() {
 
       <Header
         onOpenConsultation={handleOpenConsultation}
+        onOpenPresentation={openPresentation}
         onOpenSplash={() => setShowSplash(true)}
         scrollPercent={scrollPercent}
         currentSection={currentSection}
@@ -121,6 +140,8 @@ export default function App() {
         >
           <FoundersSection />
         </motion.div>
+
+        <PresentationCallout onOpenPresentation={openPresentation} />
 
         <motion.div
           initial="hidden"
@@ -174,6 +195,13 @@ export default function App() {
       <Footer
         onOpenResource={(key) => setActiveResource(key)}
         onOpenConsultation={() => handleOpenConsultation('General Information')}
+        onOpenPresentation={openPresentation}
+      />
+
+      <PresentationModal
+        isOpen={presentationOpen}
+        onClose={() => setPresentationOpen(false)}
+        onOpenConsultation={() => handleOpenConsultation('Executive Presentation Follow-Up')}
       />
 
       <ConsultationModal
