@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AeraLogo } from './components/AeraLogo';
 import { ConsultationModal } from './components/ConsultationModal';
 import { TrustResourceModal } from './components/TrustResourceModal';
@@ -11,6 +11,42 @@ import { palletsLegacyImage } from './assets/palletsLegacyImage';
 import { podModelImage } from './assets/podModelImage';
 
 export default function App() {
+  useEffect(() => {
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const animations = new Set<Animation>();
+    let observer: IntersectionObserver | undefined;
+    const stop = () => {
+      observer?.disconnect();
+      animations.forEach(animation => animation.cancel());
+      animations.clear();
+    };
+    const start = () => {
+      stop();
+      if (preference.matches || !('IntersectionObserver' in window) || !Element.prototype.animate) return;
+      observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          observer?.unobserve(entry.target);
+          const element = entry.target as HTMLElement;
+          const staggered = element.matches('.field-grid > *, .leader-grid > *, .workflow-grid > *, .trust-links > *');
+          const index = staggered && element.parentElement ? Array.from(element.parentElement.children).indexOf(element) : 0;
+          const animation = element.animate(
+            [{ opacity: 0, transform: 'translateY(18px)' }, { opacity: 1, transform: 'translateY(0)' }],
+            { duration: 650, delay: Math.min(index * 65, 195), easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'backwards' }
+          );
+          animations.add(animation);
+          animation.onfinish = () => animations.delete(animation);
+        });
+      }, { threshold: 0.08 });
+      document.querySelectorAll('.editorial-split, .field-grid > *, .leader-grid > *, .workflow-grid > *, .pod-figure, .demo-intro, .trust-links > *, .pilot-copy').forEach(element => {
+        // Already-visible content stays steady; only upcoming content reveals.
+        if (element.getBoundingClientRect().top >= window.innerHeight * .9) observer?.observe(element);
+      });
+    };
+    start();
+    preference.addEventListener('change', start);
+    return () => { stop(); preference.removeEventListener('change', start); };
+  }, []);
   const [menu, setMenu] = useState(false);
   const [consultation, setConsultation] = useState(false);
   const [topic, setTopic] = useState('Pilot deployment');
