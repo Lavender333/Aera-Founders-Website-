@@ -374,3 +374,45 @@ p {
   from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+.hero-network { margin-top:48px; display:flex; align-items:center; gap:48px; color:#55735c; }
+.hero-network svg { width:min(55%,540px); height:auto; }
+.hero-network > span { font-size:.72rem; letter-spacing:.08em; }
+.hero-network + .hero-rule { margin-top:32px; }
+.network-model { background:#eceee5; border:1px solid #173d3520; padding:36px; }
+.network-caption { display:flex; justify-content:space-between; gap:20px; font-size:.73rem; }
+.network-caption .editorial-label { margin:0; }
+.network-platform { display:flex; align-items:center; gap:20px; border-bottom:1px solid #173d3525; padding:30px 0; }
+.network-platform p { font-size:.9rem; margin-top:8px; }
+.network-steps { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:24px; margin:32px 0; padding:0; list-style:none; }
+.network-steps li { position:relative; padding-top:20px; }
+.network-step-number { position:absolute; right:0; top:20px; font-size:.65rem; color:#526858; }
+.network-steps h4 { font-size:1rem; color:#173d35; font-weight:500; margin:20px 0 12px; letter-spacing:-.02em; }
+.network-steps p,.network-note { font-size:.8rem; }
+.network-note { border-top:1px solid #173d3525; padding-top:20px; }
+.original-model summary { cursor:pointer; font-size:.8rem; padding:20px 0; }
+.pilot-dialog { position:fixed; margin:auto; padding:0; border:1px solid #173d3520; border-radius:8px; background:#f7f5ef; color:#263b35; width:min(600px,calc(100% - 32px)); max-height:90dvh; overflow:auto; }
+.pilot-dialog::backdrop { background:#102a25aa; backdrop-filter:blur(5px); }
+.pilot-dialog-content { position:relative; padding:44px; }
+.pilot-dialog h2 { font:400 2.6rem/1.1 Georgia,serif; color:#173d35; letter-spacing:-.04em; }
+.dialog-close { position:absolute; top:12px; right:12px; display:grid; place-items:center; width:44px; height:44px; cursor:pointer; }
+.dialog-intro { font-size:.95rem; margin:20px 0 28px; }
+.pilot-dialog label { display:block; font-size:.82rem; font-weight:600; margin:20px 0 8px; }
+.pilot-dialog input,.pilot-dialog textarea { display:block; width:100%; padding:14px; background:#fff; border:1px solid #173d3540; border-radius:3px; font:inherit; font-size:16px; }
+.brief-privacy { font-size:.75rem; margin:16px 0 24px; }
+.brief-status { padding:16px; background:#e5ebdc; font-size:.85rem; margin-top:20px; }
+.pilot-dialog .editorial-link { margin-top:24px; }
+@media(prefers-reduced-motion:no-preference) {
+ .network-dot { animation:aera-signal 5s ease-in-out 2; }
+ .pilot-dialog[open] { animation:aera-arrive 280ms ease backwards; }
+}
+@keyframes aera-signal { 0%,100% { opacity:.55; } 50% { opacity:1; } }
+@media(max-width:800px) {
+ .hero-network { gap:20px; margin-top:32px; }
+ .hero-network > span { max-width:140px; font-size:.66rem; }
+ .network-model { padding:24px; }
+ .network-steps { grid-template-columns:1fr 1fr; gap:24px; }
+ .network-caption { flex-direction:column; gap:8px; }
+ .pilot-dialog-content { padding:40px 24px 28px; }
+}
+@media(max-width:380px) { .network-steps { grid-template-columns:1fr; } }

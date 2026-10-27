@@ -8,6 +8,7 @@ import { TrustResourceKey } from './types';
 import { giftLegacyImage } from './assets/giftLegacyImage';
 import { threeKingsLegacyImage } from './assets/threeKingsLegacyImage';
 import { palletsLegacyImage } from './assets/palletsLegacyImage';
+import { NetworkModel, HeroNetwork } from './components/NetworkModel';
 import { podModelImage } from './assets/podModelImage';
 
 export default function App() {
@@ -70,7 +71,7 @@ export default function App() {
         <h1>Make preparedness visible <em>before the crisis.</em></h1>
         <div className="hero-bottom"><p>A shared picture of people, needs, and resources—connecting households, community hubs, and institutions when coordination matters most.</p>
         <div className="hero-actions"><button className="editorial-button" onClick={() => discuss()}>Discuss a Pilot <span aria-hidden="true">↗</span></button><a className="editorial-link" href="#platform">Explore the Platform <span aria-hidden="true">↓</span></a></div></div>
-        <div className="hero-rule"><span>Built around people.</span><span>Designed for coordinated action.</span></div>
+        <HeroNetwork/><div className="hero-rule"><span>Built around people.</span><span>Designed for coordinated action.</span></div>
       </div></section>
       <section id="legacy" className="editorial-section story-section"><div className="editorial-wrap">
         <div className="editorial-split"><div><p className="editorial-label">01 / The field story</p><h2>Experience shaped<br/>the mission.</h2></div><div className="editorial-copy"><p>During the Hurricane Katrina response in 2005, Kenneth Brewer saw how fragmented information and disconnected relief efforts could prolong a crisis.</p><p>His work with families and communities shaped AERA’s founding question: how can people move from knowing something happened to knowing what happens next?</p><p>AERA brings that experience into a shared system for readiness, response, and recovery.</p></div></div>
@@ -86,7 +87,7 @@ export default function App() {
       </div></div></section>
       <section id="platform" className="editorial-section"><div className="editorial-wrap"><div className="editorial-split"><div><p className="editorial-label">03 / How AERA works</p><h2>One connected<br/>operating picture.</h2></div><p className="editorial-copy">From a household’s request to a local distribution site, AERA connects the people responsible for the next step.</p></div>
         <div className="workflow-grid">{[['Prepare', 'Organize people, essential supplies, and readiness gaps.'], ['Report', 'Share safety status, location, and urgent needs.'], ['Coordinate', 'Align trusted updates, assignments, and resources.'], ['Recover', 'Track assistance, delivery, and follow-through.']].map(([title, text], i) => <article key={title}><span className="editorial-label">0{i + 1}</span><h3>{title}</h3><p>{text}</p></article>)}</div>
-        <figure id="pod-model" className="pod-figure"><img src={podModelImage} alt="AERA POD model connecting household needs, the warehouse logistics hub, church oversight, and local distribution sites." loading="lazy"/><figcaption><strong>The POD model</strong><span>Households · Central logistics · Church hubs · Local distribution</span></figcaption></figure>
+        <div id="pod-model"><NetworkModel/><details className="original-model"><summary>View the original operating-model diagram</summary><figure className="pod-figure"><img src={podModelImage} alt="Original AERA POD model connecting households, central logistics, church hubs, and distribution sites." loading="lazy"/></figure></details></div>
         <div id="app-simulator" className="demo-intro"><div><p className="editorial-label">Explore at your own pace</p><h3>See the experience in action.</h3><p>Explore the AERA platform and discover how it connects people, needs, and resources.</p></div><a className="editorial-button secondary" href="https://getaeraapp.com">Explore Aera <span aria-hidden="true">↗</span></a></div>
       </div></section>
       <section id="trust" className="editorial-section trust-section"><div className="editorial-wrap"><div className="editorial-split"><div><p className="editorial-label">04 / Trust & governance</p><h2>Clarity before<br/>commitment.</h2></div><p className="editorial-copy">Evaluate capabilities, data responsibilities, and deployment requirements for your organization. Assurance requirements are reviewed for each institutional environment.</p></div><div className="trust-links">{([['security', 'Security & privacy', 'Access, data handling, and oversight'], ['recovery', 'Operational continuity', 'Storage and service dependencies'], ['accessibility', 'Accessible design', 'Navigation, readability, and assistive use'], ['capability', 'Deployment overview', 'Scope, training, and administration']] as [TrustResourceKey, string, string][]).map(([key, title, text]) => <button key={key} onClick={() => setResource(key)}><span><strong>{title}</strong><small>{text}</small></span><span aria-hidden="true">↗</span></button>)}</div></div></section>
