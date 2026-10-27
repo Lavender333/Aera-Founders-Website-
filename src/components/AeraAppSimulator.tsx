@@ -143,7 +143,7 @@ export const AeraAppSimulator: React.FC = () => {
     setBroadcastTitle('');
     setBroadcastBody('');
     setBroadcastStep('compose');
-    showToast('Broadcast dispatched live across selected network scope!');
+    showToast('Demo broadcast recorded for the selected sample network.');
   };
 
   // Toggle Need Option in Report Wizard
@@ -184,7 +184,7 @@ export const AeraAppSimulator: React.FC = () => {
   const bgPulseY = useTransform(scrollYProgress, [0, 1], [-30, 30]);
 
   return (
-    <section ref={simRef} className="py-16 bg-[#0F172A] text-white border-y border-slate-800 relative overflow-hidden" id="app-simulator">
+    <section ref={simRef} className="py-16 bg-[#0F172A] text-white border-y border-slate-800 relative overflow-hidden" id="simulator-experience">
       {/* Decorative Glow Layer with Parallax */}
       <motion.div style={{ y: bgPulseY }} className="absolute inset-0 pointer-events-none opacity-20">
         <div className="absolute top-1/4 left-1/3 w-[600px] h-[600px] rounded-full bg-emerald-500/20 blur-[120px]" />
@@ -530,7 +530,7 @@ export const AeraAppSimulator: React.FC = () => {
                   {reportSubmitted ? (
                     <div className="p-6 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-center space-y-3">
                       <CheckCircle2 size={40} className="text-emerald-400 mx-auto" />
-                      <h5 className="text-xl font-black text-white">Status Report Submitted Live!</h5>
+                      <h5 className="text-xl font-black text-white">Demo Status Report Saved</h5>
                       <p className="text-xs text-slate-300 leading-relaxed max-w-md mx-auto">
                         Your Org Admin Command Center has received your exact safety status, location, and prioritized needs ({reportNeeds.join(', ')}).
                       </p>

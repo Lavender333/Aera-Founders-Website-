@@ -7,7 +7,7 @@ interface EnterpriseSectionProps {
 }
 
 export const EnterpriseSection: React.FC<EnterpriseSectionProps> = ({ onOpenConsultation }) => {
-  const [buyingDetailsOpen, setBuyingDetailsOpen] = useState<boolean>(true);
+  const [buyingDetailsOpen, setBuyingDetailsOpen] = useState<boolean>(false);
 
   // Calculator State
   const [scope, setScope] = useState<'assessment' | 'pilot' | 'enterprise' | 'mission'>('pilot');
@@ -74,7 +74,7 @@ export const EnterpriseSection: React.FC<EnterpriseSectionProps> = ({ onOpenCons
   const result = calculateRange();
 
   return (
-    <section className="py-20 bg-white" id="enterprise">
+    <section className="py-20 bg-white" id="deployment-options">
       <div className="container mx-auto px-4 md:px-8">
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
@@ -132,7 +132,7 @@ export const EnterpriseSection: React.FC<EnterpriseSectionProps> = ({ onOpenCons
           {/* Level 02 - Recommended */}
           <div className="bg-[#305854] text-white p-6 rounded-[24px] border-2 border-[#8CBB5D] flex flex-col justify-between shadow-xl relative overflow-hidden">
             <span className="absolute top-0 right-0 bg-[#8CBB5D] text-black text-[10px] font-black uppercase px-3 py-1 rounded-bl-xl tracking-wider">
-              Most Popular
+              Pilot scope
             </span>
             <div>
               <span className="kicker text-xs text-[#8CBB5D]">Level 02 / Prove</span>
@@ -327,7 +327,7 @@ export const EnterpriseSection: React.FC<EnterpriseSectionProps> = ({ onOpenCons
                     <strong className="text-lg font-black text-black">Six Decision Gates to Scale</strong>
                   </div>
                   <p className="text-xs text-neutral-700 mb-4 leading-relaxed">
-                    AERA ensures complete security, operational alignment, and legal compliance before expanding footprint.
+                    Review security, operational alignment, and legal requirements before expanding the deployment.
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
@@ -359,7 +359,7 @@ export const EnterpriseSection: React.FC<EnterpriseSectionProps> = ({ onOpenCons
                 </div>
 
                 <div className="p-4 rounded-xl bg-[#EEF6F0] border border-[#467857]/30 text-xs text-[#305854]">
-                  <strong className="font-bold block mb-1">Pricing Best Practice:</strong>
+                  <strong className="font-bold block mb-1">Scope & pricing:</strong>
                   Separate clear platform fees, setup services, and ongoing support so your procurement team has complete transparency.
                 </div>
               </div>
