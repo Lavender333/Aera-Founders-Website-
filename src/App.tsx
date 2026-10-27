@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState } from 'react';
+import React, { useState } from 'react';
 import { AeraLogo } from './components/AeraLogo';
 import { ConsultationModal } from './components/ConsultationModal';
 import { TrustResourceModal } from './components/TrustResourceModal';
@@ -9,11 +9,9 @@ import { giftLegacyImage } from './assets/giftLegacyImage';
 import { threeKingsLegacyImage } from './assets/threeKingsLegacyImage';
 import { palletsLegacyImage } from './assets/palletsLegacyImage';
 import { podModelImage } from './assets/podModelImage';
-const Simulator = lazy(() => import('./components/AeraAppSimulator').then(m => ({ default: m.AeraAppSimulator })));
 
 export default function App() {
   const [menu, setMenu] = useState(false);
-  const [demo, setDemo] = useState(false);
   const [consultation, setConsultation] = useState(false);
   const [topic, setTopic] = useState('Pilot deployment');
   const [presentation, setPresentation] = useState(false);
@@ -53,8 +51,7 @@ export default function App() {
       <section id="platform" className="editorial-section"><div className="editorial-wrap"><div className="editorial-split"><div><p className="editorial-label">03 / How AERA works</p><h2>One connected<br/>operating picture.</h2></div><p className="editorial-copy">From a household’s request to a local distribution site, AERA connects the people responsible for the next step.</p></div>
         <div className="workflow-grid">{[['Prepare', 'Organize people, essential supplies, and readiness gaps.'], ['Report', 'Share safety status, location, and urgent needs.'], ['Coordinate', 'Align trusted updates, assignments, and resources.'], ['Recover', 'Track assistance, delivery, and follow-through.']].map(([title, text], i) => <article key={title}><span className="editorial-label">0{i + 1}</span><h3>{title}</h3><p>{text}</p></article>)}</div>
         <figure id="pod-model" className="pod-figure"><img src={podModelImage} alt="AERA POD model connecting household needs, the warehouse logistics hub, church oversight, and local distribution sites." loading="lazy"/><figcaption><strong>The POD model</strong><span>Households · Central logistics · Church hubs · Local distribution</span></figcaption></figure>
-        <div id="app-simulator" className="demo-intro"><div><p className="editorial-label">Explore at your own pace</p><h3>See the experience in action.</h3><p>Interactive demonstration with sample data. No real emergency requests are submitted.</p></div><button className="editorial-button secondary" aria-expanded={demo} aria-controls="platform-demo" onClick={() => setDemo(!demo)}>{demo ? 'Close Demo −' : 'Explore Demo +'}</button></div>
-        {demo && <div id="platform-demo" className="demo-panel"><Suspense fallback={<p role="status">Loading demonstration…</p>}><Simulator/></Suspense></div>}
+        <div id="app-simulator" className="demo-intro"><div><p className="editorial-label">Explore at your own pace</p><h3>See the experience in action.</h3><p>Explore the AERA platform and discover how it connects people, needs, and resources.</p></div><a className="editorial-button secondary" href="https://getaeraapp.com">Explore Aera <span aria-hidden="true">↗</span></a></div>
       </div></section>
       <section id="trust" className="editorial-section trust-section"><div className="editorial-wrap"><div className="editorial-split"><div><p className="editorial-label">04 / Trust & governance</p><h2>Clarity before<br/>commitment.</h2></div><p className="editorial-copy">Evaluate capabilities, data responsibilities, and deployment requirements for your organization. Assurance requirements are reviewed for each institutional environment.</p></div><div className="trust-links">{([['security', 'Security & privacy', 'Access, data handling, and oversight'], ['recovery', 'Operational continuity', 'Storage and service dependencies'], ['accessibility', 'Accessible design', 'Navigation, readability, and assistive use'], ['capability', 'Deployment overview', 'Scope, training, and administration']] as [TrustResourceKey, string, string][]).map(([key, title, text]) => <button key={key} onClick={() => setResource(key)}><span><strong>{title}</strong><small>{text}</small></span><span aria-hidden="true">↗</span></button>)}</div></div></section>
       <section id="enterprise" className="editorial-section pilot-section"><div className="editorial-wrap"><p className="editorial-label">05 / Start with a pilot</p><h2>A focused first step.<br/><em>A clear path forward.</em></h2><p className="pilot-copy">Define one use case, agree on success measures, and evaluate AERA in a controlled scope before expanding.</p><button className="editorial-button" onClick={() => discuss()}>Discuss a Pilot <span aria-hidden="true">↗</span></button><details className="planning-details"><summary>Explore deployment options & planning ranges</summary><EnterpriseSection onOpenConsultation={discuss}/></details></div></section>
