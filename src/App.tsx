@@ -8,7 +8,7 @@ import { TrustResourceKey } from './types';
 import { giftLegacyImage } from './assets/giftLegacyImage';
 import { threeKingsLegacyImage } from './assets/threeKingsLegacyImage';
 import { palletsLegacyImage } from './assets/palletsLegacyImage';
-import { NetworkModel, HeroNetwork } from './components/NetworkModel';
+import { NetworkModel } from './components/NetworkModel';
 import { podModelImage } from './assets/podModelImage';
 
 export default function App() {
@@ -66,12 +66,11 @@ export default function App() {
       </nav>
     </div></header>
     <main id="main-content" tabIndex={-1}>
-      <section id="top" className="editorial-hero"><div className="editorial-wrap">
+      <section id="top" className="editorial-hero" style={{ paddingBottom: 'clamp(40px, 6vw, 72px)' }}><div className="editorial-wrap">
         <p className="editorial-label">AERA / Emergency readiness & coordination</p>
         <h1>Make preparedness visible <em>before the crisis.</em></h1>
         <div className="hero-bottom"><p>Connect people, needs, and resources—so every community knows what happens next.</p>
         <div className="hero-actions"><a className="editorial-button" href="https://getaeraapp.com">Explore Aera <span aria-hidden="true">↗</span></a><button className="editorial-button secondary" onClick={() => discuss()}>Plan a Pilot <span aria-hidden="true">→</span></button></div></div>
-        <div className="hero-signature"><HeroNetwork/></div>
       </div></section>
       <section id="legacy" className="editorial-section story-section"><div className="editorial-wrap">
         <div className="editorial-split"><div><p className="editorial-label">01 / The field story</p><h2>Experience shaped<br/>the mission.</h2></div><div className="editorial-copy"><p>During the Hurricane Katrina response in 2005, Kenneth Brewer saw how fragmented information and disconnected relief efforts could prolong a crisis.</p><p>His work with families and communities shaped AERA’s founding question: how can people move from knowing something happened to knowing what happens next?</p><p>AERA brings that experience into a shared system for readiness, response, and recovery.</p></div></div>
