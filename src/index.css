@@ -416,3 +416,24 @@ p {
  .pilot-dialog-content { padding:40px 24px 28px; }
 }
 @media(max-width:380px) { .network-steps { grid-template-columns:1fr; } }
+
+/* Compact hero: a clear next step and one supporting brand visual. */
+.hero-bottom { align-items:center; gap:40px; margin-top:32px; }
+.hero-bottom > p { max-width:510px; font-size:clamp(1rem,1.5vw,1.12rem); line-height:1.65; text-wrap:pretty; }
+.hero-actions { gap:12px; min-width:210px; }
+.hero-actions .editorial-button { width:100%; justify-content:space-between; min-height:52px; border-radius:6px; gap:24px; text-decoration:none; }
+.hero-signature { border-top:1px solid #173d3520; margin-top:48px; padding:24px 0 30px; }
+.hero-signature .hero-network { margin:0; gap:28px; justify-content:space-between; }
+.hero-signature .hero-network svg { width:min(46%,400px); }
+.hero-signature .hero-network > span { font-size:.74rem; line-height:1.6; letter-spacing:.035em; }
+@media(max-width:800px) {
+ .hero-bottom { gap:24px; margin-top:26px; align-items:stretch; }
+ .hero-bottom > p { max-width:36ch; font-size:1.05rem; line-height:1.65; }
+ .hero-actions { width:100%; min-width:0; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+ .hero-actions .editorial-button { min-height:52px; padding:14px 16px; font-size:.86rem; gap:12px; }
+ .hero-signature { margin-top:28px; padding:22px 0 26px; }
+ .hero-signature .hero-network { flex-direction:column; gap:8px; }
+ .hero-signature .hero-network svg { width:min(100%,320px); max-height:76px; }
+ .hero-signature .hero-network > span { max-width:none; font-size:.72rem; text-align:center; }
+}
+@media(max-width:359px) { .hero-actions { grid-template-columns:1fr; } }

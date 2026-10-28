@@ -69,9 +69,9 @@ export default function App() {
       <section id="top" className="editorial-hero"><div className="editorial-wrap">
         <p className="editorial-label">AERA / Emergency readiness & coordination</p>
         <h1>Make preparedness visible <em>before the crisis.</em></h1>
-        <div className="hero-bottom"><p>A shared picture of people, needs, and resources—connecting households, community hubs, and institutions when coordination matters most.</p>
-        <div className="hero-actions"><button className="editorial-button" onClick={() => discuss()}>Discuss a Pilot <span aria-hidden="true">↗</span></button><a className="editorial-link" href="#platform">Explore the Platform <span aria-hidden="true">↓</span></a></div></div>
-        <HeroNetwork/><div className="hero-rule"><span>Built around people.</span><span>Designed for coordinated action.</span></div>
+        <div className="hero-bottom"><p>Connect people, needs, and resources—so every community knows what happens next.</p>
+        <div className="hero-actions"><a className="editorial-button" href="https://getaeraapp.com">Explore Aera <span aria-hidden="true">↗</span></a><button className="editorial-button secondary" onClick={() => discuss()}>Plan a Pilot <span aria-hidden="true">→</span></button></div></div>
+        <div className="hero-signature"><HeroNetwork/></div>
       </div></section>
       <section id="legacy" className="editorial-section story-section"><div className="editorial-wrap">
         <div className="editorial-split"><div><p className="editorial-label">01 / The field story</p><h2>Experience shaped<br/>the mission.</h2></div><div className="editorial-copy"><p>During the Hurricane Katrina response in 2005, Kenneth Brewer saw how fragmented information and disconnected relief efforts could prolong a crisis.</p><p>His work with families and communities shaped AERA’s founding question: how can people move from knowing something happened to knowing what happens next?</p><p>AERA brings that experience into a shared system for readiness, response, and recovery.</p></div></div>
